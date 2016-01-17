@@ -1,0 +1,31 @@
+{
+  "name": "bpteam/php-phone-number-parser",
+  "description": "php regex generator for search phone in text and get info about it",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Evgeny Pynykh",
+      "email": "bpteam22@gmail.com",
+      "homepage": "http://bpteam.net",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "bpteam/php-gen-regex": "master",
+    "icomefromthenet/reverse-regex": "master",
+    "giggsey/libphonenumber-for-php": "master"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/bpteam/php-gen-regex"
+    }
+  ],
+  "autoload" : {
+    "psr-4": {
+      "bpteam\\Parser\\Phone\\": "src/"
+    }
+  }
+}
