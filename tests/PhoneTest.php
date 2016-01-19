@@ -42,6 +42,10 @@ class PhoneTest extends PHPUnit_Framework_TestCase
 Можливий торг. 0991114140 http://olx.ua/xxx';
         $number = current($phone->find($text));
         $this->assertEquals('380991114140', $number);
+
+        $text = 'Бла бла бла купи слона по цене 1860661112589 $ звони сюда 044 255-33-33';
+        $number = current($phone->find($text));
+        $this->assertEquals('380447894523', $number);
     }
 
     public function testPhoneRU()

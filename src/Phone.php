@@ -51,7 +51,7 @@ class Phone
      */
     protected function genPhoneRegEx()
     {
-        $countryCodeRegEx = GenRegEx::separateString($this->getUtil()->getCountryCodeForRegion($this->country));
+        $countryCodeRegEx = GenRegEx::separateString($this->getUtil()->getCountryCodeForRegion($this->country), $this->separator);
 
         $countryCodes = $nationalCodes = [];
         foreach ($this->getUtil()->getMetadataForRegion($this->country)->numberFormats() as $nFormat) {
@@ -82,7 +82,7 @@ class Phone
         $withCountryCode = $countryCodeRegEx . $this->separator . '(' . (count($countryCodes) > 1 ? '(' . implode(')|(', $countryCodes) . ')' : current($countryCodes)) . ')';
         $withNationalCode = count($nationalCodes) > 1 ? '(' . implode(')|(', $nationalCodes) . ')' : current($nationalCodes);
 
-        return "~(?<{$this->phoneTemplateName}>({$withCountryCode})|($withNationalCode))~Uu";
+        return "~([^\\d]{2}|,\\s*|^\\s*)(?<{$this->phoneTemplateName}>({$withCountryCode})|($withNationalCode))([^\\d]{2}|\\s*,|\\s*$)~Uus";
     }
 
     /**
@@ -139,10 +139,10 @@ class Phone
     protected function nationalCodeRegEx($code)
     {
         $data = explode('$1', $code);
-        $result = $this->onlyNumbers($data[0]) . $this->separator;
+        $result = GenRegEx::separateString($this->onlyNumbers($data[0]), $this->separator) . $this->separator;
         $result .= '$1';
         if (isset($data[1])) {
-            $result .= $this->separator . $this->onlyNumbers($data[1]);
+            $result .= $this->separator . GenRegEx::separateString($this->onlyNumbers($data[1]), $this->separator);
         }
 
         return $result;
